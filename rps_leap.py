@@ -24,6 +24,12 @@ class RPSListener(Leap.Listener):
     sprite_position = 150
     gesture_history = []
     
+    #modes
+    VERTICAL = 10000
+    HORIZONTAL = 20000
+
+    mode = HORIZONTAL   
+
     #gestures
     ROCK = 1
     PAPER = 2 
@@ -62,6 +68,7 @@ class RPSListener(Leap.Listener):
         DETECTION: {DETECTION_COMPLETE:FINISHED},
         FINISHED: {HAND_OUT:ZERO}
     }
+
     def signal(self,event):       
         
         # if this event causes a transition, gets the next state, otherwise
@@ -91,12 +98,17 @@ class RPSListener(Leap.Listener):
     def on_frame(self, controller):
         # Get the most recent frame and report some basic information
         frame = controller.frame()
+        
         if len(frame.hands) == 1:            
             # Get hands
             self.signal(self.HAND_IN)
             for hand in frame.hands:
                 frames_window = 15
-                position = hand.wrist_position[1]
+                if self.mode == self.HORIZONTAL:
+                    position = hand.wrist_position[1]
+                elif self.mode == self.VERTICAL:
+                    position = hand.wrist_position[0] + 150
+                    
                 if self.state == self.DETECTION:
                     self.fingers += sum([f.is_extended for f in hand.fingers])                    
                     self.detection_counter += 1
@@ -124,11 +136,13 @@ class RPSListener(Leap.Listener):
                 self.wrist_positions.pop(0)
                 
                 diff = sum(self.differences)
-                #print(diff)
+                
+                if self.mode == self.VERTICAL:
+                    diff = diff*-1
                 if diff < -125:
                     self.signal(self.FIST_BUMP)
                     del(self.differences[:])
-                #print self.sprite_position
+                
         else:
             self.signal(self.HAND_OUT)
            
@@ -159,9 +173,9 @@ def main():
     myfont = pygame.font.SysFont('monospace', 56)
 
     white = 255, 255, 255
-    rock = pygame.image.load("Rock.png")
-    paper = pygame.image.load("Paper.png")
-    scissors = pygame.image.load("Scissors.png")
+    rock = pygame.image.load("assets/Rock.png")
+    paper = pygame.image.load("assets/Paper.png")
+    scissors = pygame.image.load("assets/Scissors.png")
 
     choose_image = {
         listener.ROCK: rock,
