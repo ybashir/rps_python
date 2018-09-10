@@ -10,7 +10,7 @@ import Leap, sys, thread, time
 import random
 import pygame
 from pygame import Rect
-from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture, Finger
+from Leap import  Finger
 from time import sleep
 
 
@@ -98,7 +98,7 @@ class RPSListener(Leap.Listener):
     def on_frame(self, controller):
         # Get the most recent frame and report some basic information
         frame = controller.frame()
-        
+
         if len(frame.hands) == 1:            
             # Get hands
             self.signal(self.HAND_IN)
