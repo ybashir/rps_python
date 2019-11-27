@@ -187,7 +187,7 @@ def main():
         listener.PAPER: "PAPER",
         listener.SCISSORS: "SCISSORS"
     }
-
+    wins = loses = draws = 0
     size = width, height = 600, 600
     screen = pygame.display.set_mode(size)
     y = 1
@@ -205,18 +205,40 @@ def main():
             textsurfaceB = myfont.render(choose_text[listener.gesture], 
                                     True, 
                                     (100, 25, 0))
-            #fixme: all computer rounds result in a draw right now. this logic will change when 
-            #computer takes own decisions
-            textsurfaceC = myfont.render("WINS: 0 LOSSES: 0 DRAWS: %d"%listener.rounds, 
+            
+            computers_choice = random.choice(list(choose_text.values())
+            textsurfaceD = myfont.render("Computer Choose: %s"%computers_choice, 
+                                    True, 
+                                    (0, 25, 100))
+            if computers_choice == choose_text[listener.gesture]:
+                draws += 1
+            elif choose_text[listener.gesture] == 'ROCK':
+                if computers_choice == 'SCISSORS':
+                    wins += 1
+                else computers_choice == 'PAPER':
+                    loses += 1
+            elif choose_text[listener.gesture] == 'PAPER':
+                if computers_choice == 'ROCK':
+                    wins += 1
+                else computers_choice == 'SCISSORS':
+                    loses += 1
+            elif choose_text[listener.gesture] == 'SCISSORS':
+                if computers_choice == 'PAPER':
+                    wins += 1
+                else computers_choice == 'ROCK':
+                    loses += 1
+            
+            textsurfaceC = myfont.render("WINS: %d LOSSES: %d DRAWS: %d"%(wins,loses,draws), 
                                     True, 
                                     (100, 150, 0))
             screen.blit(textsurfaceB,(240,500))
+            screen.blit(textsurfaceD,(240,400))
             screen.blit(textsurfaceC,(10,550))
         
         screen.blit(choose_image[listener.gesture], 
                     Rect(150,300-listener.sprite_position,
                     300,
-                    300))            
+                    300))
         screen.blit(textsurfaceA,(10,10))
         pygame.display.flip()
         
