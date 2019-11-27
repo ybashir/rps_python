@@ -215,17 +215,17 @@ def main():
             elif choose_text[listener.gesture] == 'ROCK':
                 if computers_choice == 'SCISSORS':
                     wins += 1
-                else computers_choice == 'PAPER':
+                else:
                     loses += 1
             elif choose_text[listener.gesture] == 'PAPER':
                 if computers_choice == 'ROCK':
                     wins += 1
-                else computers_choice == 'SCISSORS':
+                else:
                     loses += 1
-            elif choose_text[listener.gesture] == 'SCISSORS':
+            else:
                 if computers_choice == 'PAPER':
                     wins += 1
-                else computers_choice == 'ROCK':
+                else:
                     loses += 1
             
             textsurfaceC = myfont.render("WINS: %d LOSSES: %d DRAWS: %d"%(wins,loses,draws), 
