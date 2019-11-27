@@ -212,21 +212,12 @@ def main():
                                     (0, 25, 100))
             if computers_choice == choose_text[listener.gesture]:
                 draws += 1
-            elif choose_text[listener.gesture] == 'ROCK':
-                if computers_choice == 'SCISSORS':
-                    wins += 1
-                else:
-                    loses += 1
-            elif choose_text[listener.gesture] == 'PAPER':
-                if computers_choice == 'ROCK':
-                    wins += 1
-                else:
-                    loses += 1
+            elif choose_text[listener.gesture] == 'ROCK' and computers_choice == 'SCISSORS'
+                    or choose_text[listener.gesture] == 'SCISSORS' and computers_choice == 'PAPER'
+                    or choose_text[listener.gesture] == 'PAPER' and computers_choice == 'ROCK':
+                wins += 1
             else:
-                if computers_choice == 'PAPER':
-                    wins += 1
-                else:
-                    loses += 1
+                loses += 1
             
             textsurfaceC = myfont.render("WINS: %d LOSSES: %d DRAWS: %d"%(wins,loses,draws), 
                                     True, 
